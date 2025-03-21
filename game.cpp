@@ -6,15 +6,15 @@
 #include <chrono>
 #include <iomanip>
 #include <fstream>
+using namespace std;
 
-
-std::string createProgressBar(int percent, int width = 12) {
+string createProgressBar(int percent, int width = 12) {
     // Calculate how many characters should be filled
     int filledWidth = width * percent / 100;
     
     // Build the progress bar string
-    std::string progressBar = "|";
-    
+    string progressBar = "|";
+
     // Add the filled portion
     for (int i = 0; i < filledWidth; i++) {
         progressBar += "█";
@@ -25,10 +25,10 @@ std::string createProgressBar(int percent, int width = 12) {
         progressBar += "░";
     }
     if(percent < 10){
-        progressBar += "| " + (("0" + std::to_string(percent)) + "%");
+        progressBar += "| " + (("0" + to_string(percent)) + "%");
     }
     else{
-        progressBar += "| " + std::to_string(percent) + "%";
+        progressBar += "| " + to_string(percent) + "%";
     }
     // Complete the bar and add the percentage
     
@@ -36,42 +36,50 @@ std::string createProgressBar(int percent, int width = 12) {
     return progressBar;
 }
 
-std::string loadProgressBar(int time, int max, int min = 0) {
-    std::string progress;
+string loadProgressBar(int time, int max, int min = 0) {
+    string progress;
     // Simulate a process from min to max%
     for (int i = min; i <= max; i++) {
         // Clear the previous line (works in most terminals)
-        std::cout << "\r";
+        cout << "\r";
         
         // Print the progress bar
         progress = createProgressBar(i);
-        std::cout << progress << std::flush;
+        cout << progress << flush;
         
         // Pause to simulate work being done
-        std::this_thread::sleep_for(std::chrono::milliseconds(time));
+        this_thread::sleep_for(chrono::milliseconds(time));
     }
     
     // Add a final newline to prevent overwriting
-    std::cout << std::endl;
+    cout << endl;
     
     return createProgressBar(max);
 }
 
-void printStatsLine(const std::string& leftLabel, int leftValue, const std::string& rightLabel, int rightValue) {
-    std::string leftBar = createProgressBar(leftValue);
-    std::string rightBar = createProgressBar(rightValue);
-    std::cout << "    *   " << std::left << std::setw(15) << leftLabel << ": " 
+void printStatsLine(const string& leftLabel, int leftValue, const string& rightLabel, int rightValue) {
+    string leftBar = createProgressBar(leftValue);
+    string rightBar = createProgressBar(rightValue);
+    cout << "    *   " << left << setw(15) << leftLabel << ": " 
     << leftBar << "         " 
-    << std::left << std::setw(18) << rightLabel << ": " 
-    << rightBar << "         *" << std::endl;
+    << left << setw(18) << rightLabel << ": " 
+    << rightBar << "         *" << endl;
     
    
 }
-std::writeDataInDb(std::map<std::string, int> stats,file){
-    
+void writeDataInDb(map<string, int> stats,string file){
+    ofstream outFile(file);
+    if (!outFile) {
+        cerr << "File could not be opened!" << endl;
+    }
+    vector<string> stdas = {"Strength","Speed","Intelligence","Influence","Charisma","Influence","Wisdom","Endurance","Creativity","Wealth","Sanity","Potential","Leadership","Beauty","Allys","Coding skill","Luck","Math skill","Willpower","Freedom","Strategy","Social Skills","Business Skills","Happiness","Friends"};
+    for (size_t i = 0; i < stdas.size(); i++)
+    {
+        outFile << stats[stdas[0]] << endl;
+    }
 }
 int main() {
-    std::cout << R"(
+    cout << R"(
     ************************************************************************************************
     *                                                                                              *
     *                        ⢸⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                 *
@@ -122,7 +130,7 @@ int main() {
     ************************************************************************************************
     *                                🏯  PLAYER STATS DASHBOARD 🏯                                 * 
     ************************************************************************************************
-    *   Name           : 🎎  Andor Task  🎎         Age               : 16 years old               *)" << std::endl;
+    *   Name           : 🎎  Andor Task  🎎         Age               : fd years old               *)" << endl;
     
     // Using a consistent method to print all stats with proper alignment
     printStatsLine("Strength", 1, "Beauty", 1);
@@ -138,12 +146,12 @@ int main() {
     printStatsLine("Potential", 40, "Happiness", 80);
     printStatsLine("Leadership", 0, "Friends", 0);
     
-    std::cout << R"(    ************************************************************************************************
-    *           😈 malevolence level : )" << createProgressBar(10) << R"(                Tier: 1                   *
-    ************************************************************************************************)" << std::endl;
+    cout << R"(    ************************************************************************************************
+    *           😈 e : )" << createProgressBar(10) << R"(                Tier: 1                   *
+    ************************************************************************************************)" << endl;
     
    
-    std::cout << "    Final stats loaded!" << std::endl;
+    cout << "    Final stats loaded!" << endl;
     
     return 0;
 }
