@@ -67,10 +67,38 @@ void printStatsLine(const std::string& leftLabel, int leftValue, const std::stri
     
    
 }
-std::writeDataInDb(std::map<std::string, int> stats,file){
-    
+void writeDataInDb(std::map<std::string, int> stats,const std::string file){
+    std::ofstream file(file);
+    if (file.isopen()){
+        file << "hello world0" << std::endl;
+        file.close();
+    }else{
+        std::cerr << "unable open file" << std::endl;
+    }
+}
+void readFromFile(const std::string& filename) {
+    std::ifstream file(filename);
+    if (file.is_open()) {
+        std::string line;
+        while (std::getline(file, line)) {
+            std::cout << line << std::endl;
+        }
+        file.close();
+    } else {
+        std::cerr << "Unable to open file for reading." << std::endl;
+    }
 }
 int main() {
+    std::map<std::string, int> stats;
+    std::cout << "Enter filename of file where you store data (ps works with .txt dont )" << std::endl;
+    std::string filename;
+    std::cin >> filename;
+    std::cout << std::endl;
+    if (filename[-4] != '.'){
+        filename = filename + ".txt";
+    }
+    readFromFile(filename);
+    writeDataInDb(stats,filename);
     std::cout << R"(
     ************************************************************************************************
     *                                                                                              *
@@ -146,4 +174,14 @@ int main() {
     std::cout << "    Final stats loaded!" << std::endl;
     
     return 0;
+}
+void testForAllGame(){
+    if (true == true)
+    {
+        std::cout << "true" << std::endl;
+    }else{
+        std::cout << "false" << std::endl;
+    }
+    
+    loadProgressBar(10,100,0);
 }
