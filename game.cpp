@@ -67,6 +67,7 @@ void printStatsLine(const string& leftLabel, int leftValue, const string& rightL
     
    
 }
+
 void writeDataInDb(map<string, int> stats,string file){
     ofstream outFile(file);
     if (!outFile) {
@@ -154,4 +155,14 @@ int main() {
     cout << "    Final stats loaded!" << endl;
     
     return 0;
+}
+void testForAllGame(){
+    if (true == true)
+    {
+        std::cout << "true" << std::endl;
+    }else{
+        std::cout << "false" << std::endl;
+    }
+    
+    loadProgressBar(10,100,0);
 }
